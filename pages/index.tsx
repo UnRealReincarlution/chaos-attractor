@@ -7,7 +7,19 @@ import Scene from '@components/scene'
 export default function Home() {
   return (
     <div className={styles.container}>
-      <Scene /> 
+      <div className={styles.overlay}>
+        <p>This is an interactive example of the Lorenz Model, simulated in real time.</p>
+        <p>Learn more <a href="https://en.wikipedia.org/wiki/Lorenz_system">here</a></p>
+      </div>
+
+      <div className={styles.mainTitle}>
+        <h1>LORENZ ATTRACTOR</h1>
+      </div>
+      
+      <div className={styles.sceneBackground}>
+        <Scene /> 
+      </div>
+      
     </div>
   );
 }

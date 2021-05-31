@@ -4,9 +4,9 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Vector } from './vector'
 import ReactDOM from 'react-dom'
 
-// import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
+import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { EffectComposer, Bloom, DepthOfField, Noise, Vignette } from '@react-three/postprocessing'
-// extend({ OrbitControls });
+extend({ OrbitControls });
 
 const LORENZ_SIGMA = 10;
 const LORENZ_RHO = 28;
@@ -28,16 +28,14 @@ const Sphere: React.FC<MeshProps> = ({ info, callback }) => {
 		callback(state);
 	}, [state])
 
-	console.log(state);
-
 	return (
 		<mesh
 			position={[state.loc.x, state.loc.y, state.loc.z]}
 			ref={mesh}	
 		>
 
-			<sphereGeometry args={[.05, 3]} />
-			<meshStandardMaterial color={'#fff'} />
+			{/* <sphereGeometry args={[.05, 3]} />
+			<meshStandardMaterial color={'#fff'} /> */}
 		</mesh>
 	)
 }
@@ -53,10 +51,10 @@ const Scene = () => {
 
 	const onTravelerUpdate = useCallback(self => {
 		self.setFromPoints(travler.path)
-	}, [travler])
+	}, [travler]);
 
     return (
-        <Canvas camera={{ fov: 75, position: [0, 0, 70]}} >
+        <Canvas camera={{ fov: 75, position: [0, 0, 70] }} >
 			<Sphere info={travler} callback={setTraveler} key={Math.random() * 100} /> 	
 
 			<>
@@ -70,9 +68,11 @@ const Scene = () => {
 				<Bloom luminanceThreshold={0} luminanceSmoothing={0.9} height={20} />
 				<Noise opacity={0.02} />
 				<Vignette eskil={false} offset={0.1} darkness={1.1} />
+
+				
 			</EffectComposer>
 
-			{/* <Dolly /> */}
+			<CameraControls />
         </Canvas>
     )
 }
@@ -86,19 +86,36 @@ function Dolly() {
 	return null
 }
 
-// const CameraControls = () => {
-// 	const {
-// 		camera,
-// 		gl: { domElement },
-// 	} = useThree();
+const CameraControls = () => {
+	const {
+		camera,
+		gl: { domElement },
+	} = useThree();
 
-// 	// Ref to the controls, so that we can update them on every frame using useFrame
-// 	const controls = useRef();
+	// Ref to the controls, so that we can update them on every frame using useFrame
+	const controls = useRef();
+
+	// rotation = -1.5685846709753122, -0.009665923712726352, -1.3458551151823663
 	
-// 	useFrame((state) => controls.current.update());
+	useFrame((state) => { 
+		console.log(controls);
+		//controls.current.target = Vector3(4.250609021236239, -1.8647534052541506, -8.552157259133082)
+
+		//@ts-expect-error
+		controls.current.update()
+	});
 	
-// 	return <orbitControls ref={controls} args={[camera, domElement]} />;
-// };
+	//@ts-expect-error
+	return <orbitControls 
+		ref={controls} 
+		args={[camera, domElement]} 
+		enableZoom={true}
+		enableDamping={true}
+		dampingFactor={0.25}
+		maxPolarAngle={Math.PI}
+		minPolarAngle={0}
+	  />;
+};
 
 var lorenzSystem = function (pos, sigma, rho, beta) {
 	// Calculate the delta x, y and z using the lorenz equations
