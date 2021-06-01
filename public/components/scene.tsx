@@ -54,7 +54,7 @@ const Scene = () => {
 	}, [travler]);
 
     return (
-        <Canvas camera={{ fov: 75, position: [0, 0, 70] }} >
+        <Canvas camera={{ fov: 75, position: [0, 0, 70], zoom: 0.5 }} >
 			<Sphere info={travler} callback={setTraveler} key={Math.random() * 100} /> 	
 
 			<>
@@ -100,6 +100,8 @@ const CameraControls = () => {
 	useFrame((state) => { 
 		console.log(controls);
 		//controls.current.target = Vector3(4.250609021236239, -1.8647534052541506, -8.552157259133082)
+
+		camera.position.set(-5.545549852989702, -4.191564816278375, 37.18096126351373);
 
 		//@ts-expect-error
 		controls.current.update()
