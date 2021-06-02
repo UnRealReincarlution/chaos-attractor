@@ -13,7 +13,7 @@ export default function Home() {
       </div>
 
       <div className={styles.mainTitle}>
-        <h1>LORENZ ATTRACTOR</h1>
+        <h1>LORENZ <br /> ATTRACTOR</h1>
       </div>
       
       <div className={styles.sceneBackground}>

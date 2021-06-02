@@ -54,25 +54,28 @@ const Scene = () => {
 	}, [travler]);
 
     return (
-        <Canvas camera={{ fov: 75, position: [0, 0, 70], zoom: 0.5 }} >
+        <Canvas camera={{ fov: 75, position: [-5.545549852989702, -4.191564816278375, 37.18096126351373], zoom: 0.5 }} >
 			<Sphere info={travler} callback={setTraveler} key={Math.random() * 100} /> 	
 
 			<>
+			{
+				//@ts-expect-error
 				<line position={[0, -2.5, -10]}>
 					<bufferGeometry attach="geometry" onUpdate={onTravelerUpdate} />
 					<lineBasicMaterial attach="material" color={'#9c88ff'} linewidth={10} linecap={'round'} linejoin={'round'} />
 				</line>
+			}
 			</>
 
 			<EffectComposer>
 				<Bloom luminanceThreshold={0} luminanceSmoothing={0.9} height={20} />
 				<Noise opacity={0.02} />
-				<Vignette eskil={false} offset={0.1} darkness={1.1} />
+				<Vignette eskil={false} offset={0.1} darkness={1.3} />
 
 				
 			</EffectComposer>
 
-			<CameraControls />
+			{/* <CameraControls /> */}
         </Canvas>
     )
 }
@@ -103,8 +106,7 @@ const CameraControls = () => {
 
 		camera.position.set(-5.545549852989702, -4.191564816278375, 37.18096126351373);
 
-		//@ts-expect-error
-		controls.current.update()
+		// controls.current.update()
 	});
 	
 	//@ts-expect-error
